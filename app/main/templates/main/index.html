@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Anuncios publicados</h2>
+
+<div class="mb-4">
+    <a href="{{ url_for('main.index') }}"
+       class="btn btn-sm {{ 'btn-dark' if not categoria_id else 'btn-outline-dark' }}">Todas</a>
+    {% for c in categorias %}
+        <a href="{{ url_for('main.index', categoria=c.id) }}"
+           class="btn btn-sm {{ 'btn-dark' if categoria_id == c.id else 'btn-outline-dark' }}">{{ c.nombre }}</a>
+    {% endfor %}
+</div>
+
+<div class="row">
+    {% for a in anuncios %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <span class="badge bg-primary mb-2">{{ a.categoria.nombre }}</span>
+                <h5 class="card-title">{{ a.titulo }}</h5>
+                <p class="card-text">{{ a.descripcion }}</p>
+            </div>
+            <div class="card-footer text-muted small">
+                {{ a.usuario.nombre }} &middot; {{ a.fecha_publicacion.strftime('%d/%m/%Y %H:%M') }}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p class="text-muted">No hay anuncios para mostrar.</p>
+    {% endfor %}
+</div>
+{% endblock %}

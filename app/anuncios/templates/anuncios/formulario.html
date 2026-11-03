@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Editar' if anuncio else 'Nuevo' }} anuncio{% endblock %}
+
+{% block content %}
+<div class="card col-md-8">
+    <div class="card-header"><h4 class="mb-0">{{ 'Editar' if anuncio else 'Nuevo' }} anuncio</h4></div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Titulo</label>
+                <input type="text" name="titulo" class="form-control" value="{{ anuncio.titulo if anuncio else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Descripcion</label>
+                <textarea name="descripcion" rows="4" class="form-control" required>{{ anuncio.descripcion if anuncio else '' }}</textarea>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Categoria</label>
+                    <select name="categoria_id" class="form-select" required>
+                        {% for c in categorias %}
+                        <option value="{{ c.id }}" {{ 'selected' if anuncio and anuncio.categoria_id == c.id }}>{{ c.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Usuario</label>
+                    <select name="usuario_id" class="form-select" required>
+                        {% for u in usuarios %}
+                        <option value="{{ u.id }}" {{ 'selected' if anuncio and anuncio.usuario_id == u.id }}>{{ u.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{{ url_for('anuncios.lista') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

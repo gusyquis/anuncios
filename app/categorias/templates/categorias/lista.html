@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Categorias{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Categorias</h2>
+    <a href="{{ url_for('categorias.nueva') }}" class="btn btn-success">Nueva categoria</a>
+</div>
+
+<table class="table table-striped table-hover align-middle">
+    <thead class="table-dark">
+        <tr><th>ID</th><th>Nombre</th><th>Descripcion</th><th>Anuncios</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+        {% for c in categorias %}
+        <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.nombre }}</td>
+            <td>{{ c.descripcion }}</td>
+            <td><span class="badge bg-secondary">{{ c.anuncios|length }}</span></td>
+            <td>
+                <a href="{{ url_for('categorias.editar', id=c.id) }}" class="btn btn-warning btn-sm">Editar</a>
+                <form action="{{ url_for('categorias.eliminar', id=c.id) }}" method="POST" class="d-inline"
+                      onsubmit="return confirm('Esta seguro de eliminar?');">
+                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
